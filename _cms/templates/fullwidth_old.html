@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load cms_tags %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Critical Error!
+                    <small>unable to connect to database</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/">Home</a>
+                    </li>
+                    <li class="active">Full Width Page</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    {% placeholder content or %}
+    <!-- page content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                <p>Unalbe to connect to mySQL database.  please check your database settings. <a href="http://mysql.com">http://www.mysql.com</a>.</p>
+                </div>
+            </div>
+        </div>
+    {% endplaceholder %}
+{% endblock %}
