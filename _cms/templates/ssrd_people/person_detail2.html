@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ person.name }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+    {% include "ssrd_people/includes/person.html" with person=person detail_view="true" %}
+
+
+{% if article.author  %}
+    <div class="container">
+        {% for author in article.author.all %}
+        <span style="float:left; margin:5px"><a href="{% namespace_url "article-list-by-author" author.slug namespace=namespace default='' %}">
+            {% if author.visual %}
+                {% thumbnail author.visual "50x50" crop upscale subject_location=author.visual.subject_location as author_image %}
+                <img src="{{ author_image.url }}" width="50" height="50" alt="{{ author.name }}"><br>
+            {% endif %}
+            {{ author.name }}
+        </a></span>
+        {% endfor %}
+    </div>
+    {% if author.function %}<p>{{ author.function }}</p>{% endif %}
+    {% if author.article_count %}<p>{{ author.article_count }}</p>{% endif %}
+{% endif %}
+
+
+        author: {{ author }}<br>
+        person: {{ person }}
+
+
+{% endblock content %}
+
+    {% block newsblog_content %}
+
+    {% for article in article_list %}
+        <!--start "ssrd_datablog/includes/article.html" -->
+        {% include "ssrd_datablog/includes/article.html" with author=person %}
+    {% empty %}
+        <p>{% trans "No items available" %}</p>
+    {% endfor %}
+
+    {% include "ssrd_datablog/includes/pagination.html" %}
+{% endblock %}
