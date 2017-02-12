@@ -1,0 +1,4 @@
+person name field needs auto complete.
+
+pip install django-updown
+https://github.com/weluse/django-updown

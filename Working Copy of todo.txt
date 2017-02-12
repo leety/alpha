@@ -1,0 +1,8 @@
+person name field needs auto complete.
+
+pip install django-updown
+https://github.com/weluse/django-updown
+
+https://github.com/pinax/pinax-notifications
+
+annot add or update a child row: a foreign key constraint fails (`django_ssrd`.`ssrd_datablog_article`, CONSTRAINT `ssrd_datablo_author_id_2f9d4d9a0757d911_fk_ssrd_people_person_id` FOREIGN KEY (`author_id`) REFERENCES `ssrd_people_person` (`id`))')

@@ -1,0 +1,14 @@
+{% extends "ssrd_datablog/base.html" %}
+{% load i18n %}
+
+{% block newsblog_content %}
+
+    {% for article in article_list %}
+        <!--start "ssrd_datablog/includes/article.html" -->
+        {% include "ssrd_datablog/includes/article.html" %}
+    {% empty %}
+        <p>{% trans "No items available" %}</p>
+    {% endfor %}
+
+    {% include "ssrd_datablog/includes/pagination.html" %}
+{% endblock %}
