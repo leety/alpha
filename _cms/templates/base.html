@@ -1,118 +1,256 @@
 {% extends "base_root.html" %}
-{% load i18n staticfiles cms_tags menu_tags sekizai_tags %}
+{% load i18n staticfiles cms_tags menu_tags sekizai_tags account %}
 
 {% block body_class %}tpl-base{% endblock %}
 
 {% block extend_root %}
-{% block header %}
-{# INFO: navbar concept: http://getbootstrap.com/components/#navbar #}
-<header class="navbar navbar-head js-navbar-head navbar-inverse navbar-fixed-top">
-    <div class="container">
-        {# INFO: the logo should be placed first for seo reasons #}
-        <div class="navbar-header">
-            {# INFO: the logo should be placed first for seo reasons #}
-            <h1 class="navbar-brand">
-                <a href="/">
-                    <span class="sr-only">SSRD</span>
-                    <img src="{% static "img/logo.png" %}" alt="{{ request.site.name }}" />
-                </a>
-            </h1>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".js-navbar-header">
-                {% for row in 123|make_list %}<span class="icon-bar"></span>{% endfor %}
-            </button>
-        </div>
+    {% block header %}
+        {# INFO: navbar concept: http://getbootstrap.com/components/#navbar #}
+        <header class="navbar navbar-head js-navbar-head navbar-inverse navbar-fixed-top">
+            <div class="container">
+                {# INFO: the logo should be placed first for seo reasons #}
+                <div class="navbar-header">
+                    {# INFO: the logo should be placed first for seo reasons #}
+                    <h1 class="navbar-brand">
+                        <a href="/">
+                            <span class="sr-only">SSRD</span>
+                            <img src="{% static "img/logo.png" %}" alt="{{ request.site.name }}"/>
+                        </a>
+                    </h1>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target=".js-navbar-header">
+                        {% for row in 123|make_list %}<span class="icon-bar"></span>{% endfor %}
+                    </button>
+                </div>
 
-        {# INFO: ensure the anchor names are callable #}
-        <h2 class="sr-only">{% trans "Shortcuts" %}</h2>
-        <ul class="skip-links">
-            <li><a href="/" title="[Alt + 0]" accesskey="0">{% trans "Go to home" %}</a></li>
-            <li><a href="#navigation" title="[Alt + 1]" accesskey="1">{% trans "Jump to navigation" %}</a></li>
-            <li><a href="#content" title="[Alt + 2]" accesskey="2">{% trans "Jump to content" %}</a></li>
-            <li><a href="#footer" title="[Alt + 3]" accesskey="3">{% trans "Contact" %}</a></li>
-        </ul>
-
-        <div class="navbar-collapse collapse js-navbar-header">
-            {% block navbar %}
-            <nav class="nav navbar-main navbar-right" id="navigation">
-                <h2 class="sr-only">{% trans "Navigation" %}</h2>
-                {% render_model_block request.current_page "changelist" %}
-                {% with dropdown="true" %}
-                <ul class="nav navbar-nav">
-                    {% show_menu 0 0 0 0 "includes/menu/navigation.html" %}
-                    <li class="divider" role="presentation"><span class="sr-only">{% trans "Separator" %}</span></li>
-                    {% show_menu_below_id "meta" 0 0 0 0 "includes/menu/navigation.html" %}
-                    {% language_chooser "includes/menu/langnav.html" "native" %}
+                {# INFO: ensure the anchor names are callable #}
+                <h2 class="sr-only">{% trans "Shortcuts" %}</h2>
+                <ul class="skip-links">
+                    <li><a href="/" title="[Alt + 0]" accesskey="0">{% trans "Go to home" %}</a></li>
+                    <li><a href="#navigation" title="[Alt + 1]" accesskey="1">{% trans "Jump to navigation" %}</a></li>
+                    <li><a href="#content" title="[Alt + 2]" accesskey="2">{% trans "Jump to content" %}</a></li>
+                    <li><a href="#footer" title="[Alt + 3]" accesskey="3">{% trans "Contact" %}</a></li>
                 </ul>
-                {% endwith %}
-                {% endrender_model_block %}
+
+                <div class="navbar-collapse collapse js-navbar-header">
+                    {% block navbar %}
+                        <nav class="nav navbar-main navbar-right" id="navigation">
+                            <h2 class="sr-only">{% trans "Navigation" %}</h2>
+                            {% render_model_block request.current_page "changelist" %}
+                                {% with dropdown="true" %}
+                                    <ul class="nav navbar-nav">
+                                        {% show_menu 0 0 0 0 "includes/menu/navigation.html" %}
+                                        <li class="divider" role="presentation"><span
+                                                class="sr-only">{% trans "Separator" %}</span></li>
+                                        {% show_menu_below_id "meta" 0 0 0 0 "includes/menu/navigation.html" %}
+                                        {% language_chooser "includes/menu/langnav.html" "native" %}
+
+                                        <li class="dropdown dropdown-nav closed">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                               aria-haspopup="true" aria-expanded="true">
+                                                <i class="fa fa-nav fa-search" aria-hidden="true"></i>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="/saerch/all"><i class="fa fa-search-plus"></i> Search
+                                                    All</a>
+                                                </li>
+                                                <li role="separator" class="divider"></li>
+
+                                                <li><a href="/saerch/dataset"><i class="fa fa-server"></i> Search
+                                                    Dataset</a>
+                                                </li>
+                                                <li><a href="/search/author"><i class="fa fa-street-view"
+                                                                                aria-hidden="true"></i>
+                                                    Search Author</a></li>
+
+                                                <li><a href="/search/news"><i class="fa fa-newspaper-o"
+                                                                              aria-hidden="true"></i> Search News</a>
+                                                </li>
+                                                {#                                                <li><a href="/search/all"><i class="fa fa-id-card"#}
+                                                {#                                                                           aria-hidden="true"></i> Billing</a></li>#}
+                                                {##}
+                                                {#                                                <li role="separator" class="divider"></li>#}
+                                                {#                                                <li><a href="/accounts/logout/"><i class="fa fa-power-off"#}
+                                                {#                                                                                   aria-hidden="true"></i>#}
+                                                {#                                                    Logout</a></li>#}
+                                            </ul>
+                                        </li>
+
+                                        {% if user.is_authenticated %}
+                                            <li class="dropdown dropdown-nav closed">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                                   aria-haspopup="true" aria-expanded="true">
+                                                    <i class="fa fa-nav fa-user" aria-hidden="true"></i>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="/messages/"><i class="fa fa-inbox"></i> Messages</a>
+                                                    </li>
+
+                                                    <li role="separator" class="divider"></li>
+                                                    <li><a href="/profile/"><i class="fa fa-user"
+                                                                               aria-hidden="true"></i> Account</a></li>
+                                                    <li><a href="/dashboard/"><i class="fa fa-tachometer"
+                                                                                 aria-hidden="true"></i>
+                                                        dashboard</a></li>
+
+                                                    <li><a href="/create/"><i class="fa fa-upload"
+                                                                              aria-hidden="true"></i> upload</a></li>
+                                                    <li><a href="/contact/"><i class="fa fa-envelope-o "
+                                                                               aria-hidden="true"></i> contact</a></li>
+
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+
+                                                        <form method="post" action="{% url 'account_logout' %}"
+                                                              class="center">
+                                                            {% csrf_token %}{% if redirect_field_value %}
+                                                                <input type="hidden" name="{{ redirect_field_name }}"
+                                                                       value="{{ redirect_field_value }}"/>
+                                                            {% endif %}
+                                                            <span class="center"> <button type="submit"
+                                                                                          class="btn btn-danger btn-sm">{% trans 'Logout' %}</button>
+                                                                <!--<a href="javascript:void();"><i class="fa fa-power-off" aria-hidden="true" onclick="form.submit()"></i>Logout</a>-->
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                        {% else %}
+                                            <li class="dropdown dropdown-nav closed">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                                   aria-haspopup="true" aria-expanded="true">
+                                                    Login
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+
+                                                        <form class="django-login" method="POST"
+                                                              action="{% url 'account_login' %}">
+                                                            {% csrf_token %} {% if form.non_field_errors %}
+                                                            <div class="alert alert-warning">
+                                                                <ul class="alert-message">
+                                                                    {% for error in form.non_field_errors %}
+                                                                        <li>{{ error }}</li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        {% endif %}
+                                                            <div class="input-group {% if form.login.errors %}has-error{% endif %}">
+                                                                <span class="input-group-addon"><i
+                                                                        class="fa fa-user fa-fw"></i></span>
+                                                                {{ form.login }}
+                                                            </div>
+
+                                                            <div class="input-group {% if form.password.errors %}has-error{% endif %}">
+                                                                <span class="input-group-addon"><i
+                                                                        class="fa fa-key fa-fw"></i></span>
+                                                                {{ form.password }}
+                                                            </div>
+
+
+                                                            <div class="fieldWrapper form-inline remember text-center">
+                                                                {{ form.remember }}
+                                                                <label for="id_remember" class="text-muted">Remember
+                                                                    me</label>
+                                                            </div>
+
+                                                            {% if redirect_field_value %}
+                                                                <input type="hidden" name="{{ redirect_field_name }}"
+                                                                       value="{{ redirect_field_value }}"/>{% endif %}
+                                                            <div class="btn-div pull-center">
+                                                                <button class="btn btn-primary btn-block"
+                                                                        type="submit">{% trans "Sign In" %}</button>
+                                                            </div>
+                                                        </form>
+                                                    </li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li><a class="text-muted"
+                                                           href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                                                    </li>
+                                                    <li><a class="text-muted" href="{% url 'account_signup' %}">Sign
+                                                        up</a></li>
+
+
+                                                </ul>
+                                            </li>
+                                            <!--<li class="child sibling">
+                                                <a href="/accounts/login?next={% firstof request.path '/' %}"
+                                                   class="'btn btn-danger btn-sm">Login</a>
+                                            </li>-->
+                                        {% endif %}
+
+                                    </ul>
+                                {% endwith %}
+                            {% endrender_model_block %}
+                        </nav>
+                    {% endblock navbar %}
+                </div>
+            </div>
+        </header>
+    {% endblock header %}
+
+    <!-- start: content -->
+    <hr class="sr-only"/>
+    <div class="feature-wrapper js-feature-wrapper">
+        {% block feature %}
+            {% placeholder "feature" or %}
+                <div class="feature-visual">
+                    <img src="{% static 'img/visuals/research.jpg' %}" alt="">
+                </div>
+                <div class="feature-content text-center">
+                    <div class="spacer spacer-xs">&nbsp;</div>
+                    <h1>{% trans "SSRD: The Next Giant Leap For Research" %}</h1>
+                </div>
+            {% endplaceholder %}
+        {% endblock feature %}
+    </div>
+
+    {% block breadcrumb %}
+        {% if not request.current_page.is_home %}
+            <!-- start: breadcrumb -->
+            {# INFO: breadcrumb concept: http://getbootstrap.com/components/#breadcrumbs #}
+            <nav class="navbar navbar-breadcrumb" role="navigation">
+                <h3 class="sr-only">{% trans "You are here" %}</h3>
+                <div class="container">
+                    <ol class="breadcrumb">
+                        {% block extend_breadcrumb %}
+                            {% show_breadcrumb 0 "includes/menu/breadcrumb.html" %}
+                        {% endblock extend_breadcrumb %}
+                    </ol>
+                </div>
             </nav>
-            {% endblock navbar %}
+            <!-- end: breadcrumb -->
+        {% endif %}
+    {% endblock breadcrumb %}
+
+    {% block messages %}
+        {% if messages %}
+            <!-- start: messages -->
+            <div class="container">
+                {% include "includes/messages.html" %}
+            </div>
+            <!-- end: messages -->
+        {% endif %}
+    {% endblock messages %}
+
+    {% block extend_base %}
+        <div class="container">
+            {% block content %}{% endblock %}
         </div>
-    </div>
-</header>
-{% endblock header %}
+        {% block extra %}
+            <!-- placeholder: extra -->
+            {% placeholder "extra" %}
+        {% endblock %}
 
-<!-- start: content -->
-<hr class="sr-only" />
-<div class="feature-wrapper js-feature-wrapper">
-    {% block feature %}
-        {% placeholder "feature" or %}
-            <div class="feature-visual">
-                <img src="{% static 'img/visuals/research.jpg' %}" alt="">
-            </div>
-            <div class="feature-content text-center">
-                <div class="spacer spacer-xs">&nbsp;</div>
-                <h1>{% trans "SSRD: The Next Giant Leap For Research" %}</h1>
-            </div>
-        {% endplaceholder %}
-    {% endblock feature %}
-</div>
-
-{% block breadcrumb %}
-{% if not request.current_page.is_home %}
-<!-- start: breadcrumb -->
-{# INFO: breadcrumb concept: http://getbootstrap.com/components/#breadcrumbs #}
-<nav class="navbar navbar-breadcrumb" role="navigation">
-    <h3 class="sr-only">{% trans "You are here" %}</h3>
-    <div class="container">
-        <ol class="breadcrumb">
-            {% block extend_breadcrumb %}
-            {% show_breadcrumb 0 "includes/menu/breadcrumb.html" %}
-            {% endblock extend_breadcrumb %}
-        </ol>
-    </div>
-</nav>
-<!-- end: breadcrumb -->
-{% endif %}
-{% endblock breadcrumb %}
-
-{% block messages %}
-{% if messages %}
-<!-- start: messages -->
-<div class="container">
-    {% include "includes/messages.html" %}
-</div>
-<!-- end: messages -->
-{% endif %}
-{% endblock messages %}
-
-{% block extend_base %}
-    <div class="container">
-    {% block content %}{% endblock %}
-    </div>
-    {%  block extra %}
-        <!-- placeholder: extra -->
-        {% placeholder "extra" %}
-    {% endblock %}
-
-{% endblock extend_base %}
-<hr class="sr-only" />
-<!-- end: content -->
+    {% endblock extend_base %}
+    <hr class="sr-only"/>
+    <!-- end: content -->
 
 
 
     <!-- Footer -->
-    {%  static_placeholder "Footer" %}
+    {% static_placeholder "Footer" %}
 
-{% addtoblock "js" %}<script src="{% static 'js/addons/cl.explorer.js' %}"></script>{% endaddtoblock %}
+    {% addtoblock "js" %}
+        <script src="{% static 'js/addons/cl.explorer.js' %}"></script>{% endaddtoblock %}
 {% endblock extend_root %}

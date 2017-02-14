@@ -1,3 +1,38 @@
 .tm4 {
     margin-top: -6px;
 }
+
+.tmplus {
+    margin-top: 6px;
+    margin-left: 20px;
+}
+
+.bline {
+  padding-bottom: 9px;
+  margin: 0px 0 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.margin15 {
+  margin: 15px;
+  padding: 5px;
+}
+
+.section{
+    padding: 5px 0px;
+    background-color: #f1f1ed;
+}
+
+.center{
+    text-align: center;
+}
+
+.right{
+    text-align: right;
+}
+
+
+.left{
+    text-align: left;
+}
+
