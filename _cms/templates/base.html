@@ -95,7 +95,7 @@
 
                                                     <li><a href="/create/"><i class="fa fa-upload"
                                                                               aria-hidden="true"></i> upload</a></li>
-                                                    <li><a href="/contact/"><i class="fa fa-envelope-o "
+                                                    <li><a href="/contact/"><i class="fa fa-envelope-o"
                                                                                aria-hidden="true"></i> contact</a></li>
 
                                                     <li role="separator" class="divider"></li>
@@ -116,11 +116,10 @@
                                             </li>
 
                                         {% else %}
-                                            <li class="dropdown dropdown-nav closed">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                   aria-haspopup="true" aria-expanded="true">
-                                                    Login
-                                                </a>
+                                            <li class="dropdown dropdown-nav open">
+                                                <a href="#" class="dropdown-toggle btn btn-danger btn-md" data-toggle="dropdown" role="button"
+                                                   aria-haspopup="true" aria-expanded="true">Log in
+                                                               </a>
                                                 <ul class="dropdown-menu">
                                                     <li>
 
@@ -135,21 +134,23 @@
                                                                 </ul>
                                                             </div>
                                                         {% endif %}
+                                                        <div class="mlr5">
                                                             <div class="input-group {% if form.login.errors %}has-error{% endif %}">
                                                                 <span class="input-group-addon"><i
                                                                         class="fa fa-user fa-fw"></i></span>
-                                                                {{ form.login }}
+                                                                <input autofocus="autofocus" id="id_login" class="form-control" name="login" placeholder="Username or e-mail" type="text">
                                                             </div>
 
                                                             <div class="input-group {% if form.password.errors %}has-error{% endif %}">
                                                                 <span class="input-group-addon"><i
                                                                         class="fa fa-key fa-fw"></i></span>
-                                                                {{ form.password }}
+                                                                <input id="id_password"  class="form-control" name="password" placeholder="Password" type="password">
                                                             </div>
 
 
                                                             <div class="fieldWrapper form-inline remember text-center">
                                                                 {{ form.remember }}
+                                                                <input id="id_remember"  class="form-control" name="remember" type="checkbox">
                                                                 <label for="id_remember" class="text-muted">Remember
                                                                     me</label>
                                                             </div>
@@ -161,15 +162,15 @@
                                                                 <button class="btn btn-primary btn-block"
                                                                         type="submit">{% trans "Sign In" %}</button>
                                                             </div>
+                                                        </div>
                                                         </form>
                                                     </li>
                                                     <li role="separator" class="divider"></li>
-                                                    <li><a class="text-muted"
-                                                           href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                                                    <li><a href="{% url 'account_reset_password' %}"><i class="fa fa-question-circle"
+                                                                               aria-hidden="true"></i> &nbsp;{% trans "Forgot Password?" %}</a>
                                                     </li>
-                                                    <li><a class="text-muted" href="{% url 'account_signup' %}">Sign
-                                                        up</a></li>
-
+                                                    <li><a href="{% url 'account_signup' %}"><i class="fa fa-user-plus"
+                                                                               aria-hidden="true"></i> Sign up</a></li>
 
                                                 </ul>
                                             </li>
